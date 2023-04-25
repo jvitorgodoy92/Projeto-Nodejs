@@ -37,7 +37,7 @@ app.get('/order/', checkUrl, (request, response) =>{
 
 
 app.post('/order/', checkUrl, (request, response) =>{
-
+   try{
     const { clientOrder, clientName, priceOrder } = request.body
 
     const order = {id:uuid.v4(), clientOrder, clientName, priceOrder, status: "Em preparação" }
@@ -45,7 +45,9 @@ app.post('/order/', checkUrl, (request, response) =>{
     orders.push(order)
 
     return response.status(201).json(order)
-    
+   } catch(err){
+    return response.status(500).json({error: "Internal server error."}) 
+   } 
 })
 
 app.delete('/order/:id', checkOrderId, checkUrl, (request, response) =>{
